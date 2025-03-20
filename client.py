@@ -4,10 +4,6 @@ import os
 import sys
 import base64
 
-# Function to decrypt the IP address
-def decrypt_ip(encoded_ip):
-    return base64.urlsafe_b64decode(encoded_ip.encode()).decode()
-
 # Function to receive messages from the server
 def receive_messages(client_socket):
     while True:
@@ -53,8 +49,7 @@ def handle_commands(client_socket, message, username):
 
 # Main function to start the client
 def main():
-    encoded_ip = input("Enter the server connection code: ")
-    HOST = decrypt_ip(encoded_ip)
+    HOST = input("Enter the server IP4 adress: ")
     PORT = 5000  # Make sure the port matches the server port
 
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
