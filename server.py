@@ -14,9 +14,7 @@ clients = []
 usernames = {}
 threads = []
 
-# Function to encrypt the IP address
-def encrypt_ip(ip_address):
-    return base64.urlsafe_b64encode(ip_address.encode()).decode()
+shutdown = False
 
 # Function to decrypt the IP address
 def decrypt_ip(encoded_ip):
@@ -78,6 +76,7 @@ def shutdown_server(server):
         if thread is not current_thread:
             thread.join(timeout=1)
     
+    shutdown = True
     sys.exit()
 
 # Main function to start the server
@@ -85,11 +84,12 @@ def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((HOST, PORT))
     server.listen(5)
-    encrypted_ip = encrypt_ip(HOST)
     os.system('cls' if os.name == 'nt' else 'clear')
     print(f'Server started on {HOST}:{PORT}')
     print("")
-    print(f'Connection code: {encrypted_ip}')
+    hostname = socket.gethostname()
+    ip_address = socket.gethostbyname(hostname)
+    print(f'Your IP4 address: {ip_address}')
     print("")
 
     def listen_for_shutdown_command():
